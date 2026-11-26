@@ -1,36 +1,52 @@
 # TESLER Android Foundation
 
-Version 0.1.0 · Package `com.tesler.ai` · Android 8.0+ · Kotlin + Jetpack Compose.
+**Version:** 0.1.0  
+**Package:** `com.tesler.ai`  
+**Platform:** Android 8.0+ (API 26+)  
+**UI:** Kotlin + Jetpack Compose
 
-## Build a debug APK using GitHub (phone-friendly)
+## What is included
 
-1. Create an empty GitHub repository named `TESLER-Android`.
-2. Upload the **contents** of this ZIP to the repository root (do not upload the ZIP itself).
-3. Commit the files to the `main` branch.
-4. Open the repository's **Actions** tab.
-5. Choose **Build TESLER APK** and press **Run workflow** if it has not already started.
-6. Wait for the run to finish successfully.
-7. Open the completed run and download the `TESLER-debug-apk` artifact.
-8. Extract that downloaded artifact ZIP. It contains `app-debug.apk`.
-9. Open the APK on Android and allow installation from that source if prompted.
-
-## What's included
-
-- Native Android project skeleton.
+- Native Android application skeleton.
 - Dark TESLER interface.
-- Quick and Deep mode selector, with locally saved selection.
-- Basic chat UI shell.
-- GitHub Actions workflow to compile a debug APK in the cloud.
-- No model or external AI API.
+- Quick and Deep mode selector (selection persists locally).
+- Basic local chat UI shell.
+- No internet permission and no external AI API.
+- No model bundled yet.
 
-## Important
+## Important status
 
-This is the foundation shell, not the finished AI assistant. Chat replies are placeholders. Model inference, durable conversation memory, voice, Android phone actions and plugin management are future milestones. Quick/Deep currently change the UI's placeholder response only. The workflow produces a debug APK, not a Play Store release. The app has not yet been device-tested.
+This is the **foundation shell**, not the finished AI assistant. The chat currently uses placeholder replies. The local language model, durable conversation memory, voice, Android phone actions and plugin manager are future milestones.
 
-## Build locally
+## Build
 
-Requires JDK 17, Android SDK 35 and Gradle 8.9:
+Open this folder in Android Studio with Android SDK 35 installed, allow Gradle sync, then:
+
+- Build > Build Bundle(s) / APK(s) > Build APK(s)
+
+Or from a machine with Gradle and Android SDK configured:
 
 ```bash
 gradle :app:assembleDebug
 ```
+
+APK output:
+
+`app/build/outputs/apk/debug/app-debug.apk`
+
+## Design decisions
+
+- Kotlin and Jetpack Compose for native Android integration.
+- Minimum SDK 26 to support a broad range of Android devices.
+- No network permission in the foundation.
+- Quick/Deep are currently UI modes; model routing is not implemented yet.
+- Avoid placing a large model in the APK. Add model files as a separate, versioned asset/download package only after measuring RAM and storage on target devices.
+
+## Next milestones
+
+1. Add a model interface (`InferenceEngine`) and connect a small local quantized model.
+2. Add persistent chat history and user-approved memory.
+3. Add Android capability bridge with explicit permissions and confirmation for sensitive actions.
+4. Add voice input/output.
+5. Add plugin manifest, discovery and enable/disable controls.
+6. Profile on Samsung Galaxy A12 (RAM, latency, battery, storage).
